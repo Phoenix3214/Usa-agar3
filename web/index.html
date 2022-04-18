@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="Eat cells smaller than you and don't get eaten by the bigger ones, as an MMO">
+    <meta name="keywords" content="agario, agar, io, cell, cells, virus, bacteria, blob, game, games, web game, html5, fun, flash">
+    <meta name="robots" content="index, follow">
+    <meta name="viewport" content="minimal-ui, width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+
+    <title>Usa Agar Private Server V5</title>
+
+    <link id="favicon" rel="icon" type="image/png" href="assets/img/favicon.png">
+    <link href="https://fonts.googleapis.com/css?family=Ubuntu:700" rel="stylesheet" type="text/css">
+    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap.min.css" rel="stylesheet">
+    <link href="assets/css/index.css" rel="stylesheet">
+    <link href="assets/css/gallery.css" rel="stylesheet">
+
+    <script src="assets/js/quadtree.js"></script>
+    <script src="assets/js/main_out.js"></script>
+</head>
+  
+<div id="point-top" style="border: 2px solid white; border-radius: 50%; width: 10px; height: 10px; position: fixed; left: width="1000" height="300"></div>
+<div id="point-right" style="border: 2px solid white; border-radius: 50%; width: 10px; height: 10px; position: fixed; left: width="1000" height="300"></div>
+<div id="point-bottom" style="border: 2px solid white; border-radius: 50%; width: 10px; height: 10px; position: fixed; left: width="1000" height="300"></div>
+<div id="point-left" style="border: 2px solid white; border-radius: 50%; width: 10px; height: 10px; position: fixed; left: width="1000" height="300"></div>
+
+  
+<div id="linesplit_overlay" style="z-index: 999999999;display:${settings.get("enabled") ? "block" : "none"}">
+<div id="point-top" style="border: 2px solid white; border-radius: 50%; width: 10px; height: 10px; position: fixed; left: left: width="1000" height="300"></div>
+<div id="point-right" style="border: 2px solid white; border-radius: 50%; width: 10px; height: 10px; position: fixed; left: left: width="1000" height="300"></div>
+<div id="point-bottom" style="border: 2px solid white; border-radius: 50%; width: 10px; height: 10px; position: fixed; left: left: width="1000" height="300"></div>
+<div id="point-left" style="border: 2px solid white; border-radius: 50%; width: 10px; height: 10px; position: fixed; left: left: width="1000" height="300"></div>
+</div>
+  
+  
+<body>
+<!-- REMINDER: 1365x937 canvas -->
+    <div id="gallery" onclick="if (event.target == this) this.hide()" style="display: none;">
+        <div id="gallery-content">
+            <div id="gallery-header">Skins</div>
+            <div id="gallery-body"></div>
+        </div>
+    </div>
+    <div id="overlays" style="display: all;">
+        <div id="leftBox" class="menu">
+          
+          <center>
+            <h2>News:</h2>
+            <ul class="news infoUls">
+              <li>Created the awesome game!</li>
+              <li>Added Macros</li>
+              <li>More to come :P</li>
+            </ul>
+          </center>  
+        </div>
+        <div id="helloDialog" class="menu">
+            <div class="form-group">
+                <h2 id="title">Usa Agar Private Server</h2>
+            </div>
+
+            <div class="form-group">
+                <input id="nick" class="form-control" placeholder="Nickname" maxlength="15">
+                <input id="skin" class="form-control"  placeholder="Skin Code">
+                <select id="gamemode" class="form-control" onchange="setserver(this.value)" required="">
+                    <option value="wtfff.glitch.me" selected="">Minions/Bots [Beta (May reset often)]</option>
+                    <option value="probable-calico-cord.glitch.me" selected="">FFA [Beta 16x cells (Classic)]</option>
+                    <option value="odd-invited-tortellini.glitch.me" selected="">Minions/Bots (Smooth splits)</option>
+                    <option value="cream-humble-safflower.glitch.me" selected="">Megasplit (smooth physics? crazy fun) [BETA]</option>
+                    <option value="impartial-lizard-comic.glitch.me" selected="">Ultrasplit [BETA]</option>
+                    <option value="rainy-lunar-appalachiosaurus.glitch.me" selected="">Popsplit paradise [BETA]</option>
+                    <option value="fabulous-glen-television.glitch.me" selected="">Macro (eject multiple cells) [BETA]</option>
+                    <option value="cuddly-flowery-pram.glitch.me" selected="">Testing server [BETA]</option>
+                    <option value="orchid-bejewled-bun.glitch.me" selected="">Testing server 2 (Pushsplit extends) [BETA]</option>
+                    <option value="usa-testing.glitch.me" selected="">Testing server 3 (Minions) [BETA]</option>
+                    <option value="usa-test.glitch.me" selected="">Powerups (G = recombine; X = Virus) [BETA]</option>
+                  
+                    
+                </select>
+            </div>
+          
+          
+            <button id="play-btn" class="btn btn-play btn-primary btn-needs-server">Play</button>
+            <button id="spectate-btn" onclick="spectate()" class="btn btn-warning btn-spectate btn-needs-server glyphicon glyphicon-eye-open"></button>
+            <button id="gallery-btn" onclick="openSkinsList()" class="btn btn-play btn-primary btn-needs-server btn-info">Skins Gallery</button>
+
+            <div id="settings" class="checkbox">
+                <div style="margin: 6px;">
+                    <label><input id="showSkins" type="checkbox">Skins</label>
+                    <label><input id="showNames" type="checkbox">Names</label>
+                    <label><input id="darkTheme" type="checkbox">Dark</label>
+                    <label><input id="showColor" type="checkbox">Color</label>
+                    <label><input id="showMass" type="checkbox">Mass</label>
+                    <label><input id="showChat" type="checkbox">Chat</label>
+                    <label><input id="showMinimap" type="checkbox">Minimap</label>
+                    <label><input id="showPosition" type="checkbox">Position</label>
+                    <label><input id="showBorder" type="checkbox">Border</label>
+                    <label><input id="showGrid" type="checkbox">Grid</label>
+                    <label><input id="moreZoom" type="checkbox">Zoomout</label>
+                    <label><input id="fillSkin" type="checkbox">Fill Skin</label>
+                    <label><input id="backgroundSectors" type="checkbox">Background Sectors</label>
+                    <label><input id="jellyPhysics" type="checkbox">Triangle Shapes</label>
+                    <label>
+                        <input id="playSounds" type="checkbox">Sounds
+                        <input id="soundsVolume" type="range" min="0" max="1" step="any">
+                    </label>
+                </div>
+            </div>
+
+
+            <hr>
+            <div id="footer">
+                <span class="text-muted">Have fun!</span>
+            </div>
+
+        </div>
+        <div id="rightBox" class="menu">
+          <center>
+            <h2>Macros:</h2>
+            <ul class="settingsList infoUls">
+              <li>Move your mouse to control your cell</li>
+              <li>Press <b>[Space]</b> to split</li>
+              <li>ress <b>[W]</b> to eject some mass</li>
+              <li>Press <b>[D]</b> to double split</li>
+              <li>Press <b>[A]</b> to quad split</li>
+              <li>Press <b>[S]</b> to triple split</li>
+              <li>Press <b>[Z]</b> to max split</li>
+              <li>Press <b>[C]</b> to macro split (Currently in beta stage, does not work)</li>
+            </ul>
+          </center>
+      </div>
+    </div>
+
+  
+    <div id="connecting" style="color: #000000;">
+        <div id="connecting-content">
+            <h2>Connecting</h2>
+            <p> If you cannot connect to the servers, check if you have some anti virus or firewall blocking the connection.</p>
+        </div>
+    </div>
+
+    <div id="mobileStuff" style="display: none;">
+        <div id="touchpad"></div>
+        <div id="touchCircle" style="display: none;"></div>
+        <img src="data:image/png;base64,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" id="splitBtn">
+        <img src="data:image/png;base64,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" id="ejectBtn">
+    
+  
+  
+  </div>
+
+    <canvas id="canvas" width="800" height="601"></canvas>
+                                               
+    <input type="text" id="chat_textbox" placeholder="Press enter to chat" maxlength="200">
+    <div style="font-family:'Ubuntu'">&nbsp;</div>
+</body>
+</html>
+
+
+
+              
